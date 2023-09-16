@@ -176,6 +176,8 @@ export class Scene3D implements Partial<ThreeGraphics> {
     this._isRunning = false
     this.renderer.setAnimationLoop(null)
 
+    this._onStop()
+
     // reset clock
     this.clock.start()
 
@@ -227,6 +229,7 @@ export class Scene3D implements Partial<ThreeGraphics> {
   public preload() {}
   public create() {}
   public update(_time: number, _delta: number) {}
+  public onStop() {}
   /** Will be called before THREE.WebGLRenderer.render() */
   public preRender() {}
   /** Will be called after THREE.WebGLRenderer.render() */
@@ -252,5 +255,9 @@ export class Scene3D implements Partial<ThreeGraphics> {
     if (this.composer) this.composer.render()
     else this.renderer.render(this.scene, this.camera)
     this.postRender()
+  }
+
+  private async _onStop() {
+    await this.onStop?.()
   }
 }
